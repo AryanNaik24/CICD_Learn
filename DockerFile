@@ -1,8 +1,8 @@
-FROM alpine:3.22
+FROM python:3.12-alpine
 
 WORKDIR /app
 COPY . /app
-RUN pip install flask
+RUN pip install --no-cache-dir flask
 EXPOSE 8080
 ENTRYPOINT ["python"]
 CMD ["app.py"]

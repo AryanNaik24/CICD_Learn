@@ -7,6 +7,10 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ${{ github.workspace }}   # 👈 ensures Dockerfile is found in repo root
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -22,9 +26,11 @@ jobs:
           DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
           IMAGE_NAME: my-image
         run: |
+          echo "Current directory: $(pwd)"
+          echo "Files in repo:"
+          ls -la
           docker build -t $DOCKERHUB_USERNAME/$IMAGE_NAME:latest .
           docker push $DOCKERHUB_USERNAME/$IMAGE_NAME:latest
-        working-directory: .   # optional but harmless
 
   test:
     runs-on: ubuntu-latest
